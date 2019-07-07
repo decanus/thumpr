@@ -5,34 +5,22 @@ import (
 	"context"
 
 	"github.com/libp2p/go-libp2p"
-	"github.com/libp2p/go-libp2p-core/crypto"
 	"github.com/libp2p/go-libp2p-core/host"
 	"github.com/libp2p/go-libp2p-core/peer"
-	"github.com/multiformats/go-multiaddr"
 )
 
 // Node implements the HOPR node.
 type Node struct {
-	addr multiaddr.Multiaddr
-	pk   crypto.PrivKey
-
 	host host.Host
 }
 
-func NewNode(addr multiaddr.Multiaddr, pk crypto.PrivKey) *Node {
-	return &Node{
-		addr: addr,
-		pk:   pk,
-	}
+func NewNode() *Node {
+	return &Node{}
 }
 
 // Start starts a HOPR node.
 func (n *Node) Start() error {
-	h, err := libp2p.New(
-		context.Background(),
-		libp2p.ListenAddrs(n.addr),
-		libp2p.Identity(n.pk),
-	)
+	h, err := libp2p.New(context.Background())
 
 	if err != nil {
 		return err
@@ -47,14 +35,14 @@ func (n *Node) Start() error {
 }
 
 // Stop stops a HOPR node.
-func (n *Node) Stop() {
+func (n *Node) Stop() error {
 	if n.host == nil {
-		return
+		return nil
 	}
 
 	err := n.host.Close()
 	if err != nil {
-		panic(err) // @todo
+		return err
 	}
 }
 
