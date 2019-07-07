@@ -58,6 +58,11 @@ func (n *Node) Stop() {
 	}
 }
 
+// Crawl crawls ... for ... .
+func (n *Node) Crawl() {
+
+}
+
 /// SendMessage is used to send a message over HOPR.
 func (n *Node) SendMessage(msg []byte, destination peer.ID) error {
 	return nil
