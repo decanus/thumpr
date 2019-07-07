@@ -44,6 +44,8 @@ func (n *Node) Stop() error {
 	if err != nil {
 		return err
 	}
+
+	return nil
 }
 
 // Crawl crawls ... for ... .
